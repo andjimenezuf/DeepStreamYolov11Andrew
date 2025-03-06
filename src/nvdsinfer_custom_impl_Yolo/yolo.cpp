@@ -459,7 +459,7 @@ Yolo::buildYoloNetwork(std::vector<float>& weights, nvinfer1::INetworkDefinition
   }
 
   if (m_YoloCount == yoloCountInputs) {
-    uint64_t outputSize = 0;
+    uint32_t outputSize = 0;
     for (uint j = 0; j < yoloCountInputs; ++j) {
       TensorInfo& curYoloTensor = m_YoloTensors.at(j);
       outputSize += curYoloTensor.numBBoxes * curYoloTensor.gridSizeY * curYoloTensor.gridSizeX;

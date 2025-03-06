@@ -9,7 +9,7 @@ inline __device__ float sigmoidGPU(const float& x) { return 1.0f / (1.0f + __exp
 
 __global__ void gpuYoloLayer(const float* input, float* boxes, float* scores, float* classes, const uint netWidth,
     const uint netHeight, const uint gridSizeX, const uint gridSizeY, const uint numOutputClasses, const uint numBBoxes,
-    const uint64_t lastInputSize, const float scaleXY, const float* anchors, const int* mask)
+    const uint32_t lastInputSize, const float scaleXY, const float* anchors, const int* mask)
 {
   uint x_id = blockIdx.x * blockDim.x + threadIdx.x;
   uint y_id = blockIdx.y * blockDim.y + threadIdx.y;
@@ -59,12 +59,12 @@ __global__ void gpuYoloLayer(const float* input, float* boxes, float* scores, fl
 }
 
 cudaError_t cudaYoloLayer(const void* input, void* boxes, void* scores, void* classes, const uint& batchSize,
-    const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize, const uint& netWidth,
+    const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize, const uint& netWidth,
     const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses, const uint& numBBoxes,
     const float& scaleXY, const void* anchors, const void* mask, cudaStream_t stream);
 
 cudaError_t cudaYoloLayer(const void* input, void* boxes, void* scores, void* classes, const uint& batchSize,
-    const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize, const uint& netWidth,
+    const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize, const uint& netWidth,
     const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses, const uint& numBBoxes,
     const float& scaleXY, const void* anchors, const void* mask, cudaStream_t stream)
 {

@@ -48,7 +48,7 @@ class YoloLayer : public nvinfer1::IPluginV2DynamicExt {
     YoloLayer(const void* data, size_t length);
 
     YoloLayer(const uint& netWidth, const uint& netHeight, const uint& numClasses, const uint& newCoords,
-        const std::vector<TensorInfo>& yoloTensors, const uint64_t& outputSize);
+        const std::vector<TensorInfo>& yoloTensors, const uint32_t& outputSize);
 
     nvinfer1::IPluginV2DynamicExt* clone() const noexcept override;
 
@@ -102,7 +102,7 @@ class YoloLayer : public nvinfer1::IPluginV2DynamicExt {
     uint m_NumClasses {0};
     uint m_NewCoords {0};
     std::vector<TensorInfo> m_YoloTensors;
-    uint64_t m_OutputSize {0};
+    uint32_t m_OutputSize {0};
 };
 
 class YoloLayerPluginCreator : public nvinfer1::IPluginCreator {

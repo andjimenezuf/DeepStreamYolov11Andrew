@@ -29,7 +29,7 @@ __device__ void softmaxGPU(const float* input, const int bbindex, const int numG
 
 __global__ void gpuRegionLayer(const float* input, float* softmax, float* boxes, float* scores, float* classes,
     const uint netWidth, const uint netHeight, const uint gridSizeX, const uint gridSizeY, const uint numOutputClasses,
-    const uint numBBoxes, const uint64_t lastInputSize, const float* anchors)
+    const uint numBBoxes, const uint32_t lastInputSize, const float* anchors)
 {
   uint x_id = blockIdx.x * blockDim.x + threadIdx.x;
   uint y_id = blockIdx.y * blockDim.y + threadIdx.y;
@@ -78,12 +78,12 @@ __global__ void gpuRegionLayer(const float* input, float* softmax, float* boxes,
 }
 
 cudaError_t cudaRegionLayer(const void* input, void* softmax, void* boxes, void* scores, void* classes,
-    const uint& batchSize, const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize,
+    const uint& batchSize, const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize,
     const uint& netWidth, const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses,
     const uint& numBBoxes, const void* anchors, cudaStream_t stream);
 
 cudaError_t cudaRegionLayer(const void* input, void* softmax, void* boxes, void* scores, void* classes,
-    const uint& batchSize, const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize,
+    const uint& batchSize, const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize,
     const uint& netWidth, const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses,
     const uint& numBBoxes, const void* anchors, cudaStream_t stream)
 {

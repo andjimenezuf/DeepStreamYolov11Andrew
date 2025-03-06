@@ -129,7 +129,7 @@ class Yolo : public IModelParser {
     uint m_InputC;
     uint m_InputH;
     uint m_InputW;
-    uint64_t m_InputSize;
+    uint32_t m_InputSize;
     uint m_NumClasses;
     uint m_LetterBox;
     uint m_NewCoords;

@@ -39,17 +39,17 @@ namespace {
 }
 
 cudaError_t cudaYoloLayer_nc(const void* input, void* boxes, void* scores, void* classes, const uint& batchSize,
-    const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize, const uint& netWidth,
+    const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize, const uint& netWidth,
     const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses, const uint& numBBoxes,
     const float& scaleXY, const void* anchors, const void* mask, cudaStream_t stream);
 
 cudaError_t cudaYoloLayer(const void* input, void* boxes, void* scores, void* classes, const uint& batchSize,
-    const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize, const uint& netWidth,
+    const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize, const uint& netWidth,
     const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses, const uint& numBBoxes,
     const float& scaleXY, const void* anchors, const void* mask, cudaStream_t stream);
 
 cudaError_t cudaRegionLayer(const void* input, void* softmax, void* boxes, void* scores, void* classes,
-    const uint& batchSize, const uint64_t& inputSize, const uint64_t& outputSize, const uint64_t& lastInputSize,
+    const uint& batchSize, const uint32_t& inputSize, const uint32_t& outputSize, const uint32_t& lastInputSize,
     const uint& netWidth, const uint& netHeight, const uint& gridSizeX, const uint& gridSizeY, const uint& numOutputClasses,
     const uint& numBBoxes, const void* anchors, cudaStream_t stream);
 
@@ -92,7 +92,7 @@ YoloLayer::YoloLayer(const void* data, size_t length) {
 };
 
 YoloLayer::YoloLayer(const uint& netWidth, const uint& netHeight, const uint& numClasses, const uint& newCoords,
-    const std::vector<TensorInfo>& yoloTensors, const uint64_t& outputSize) : m_NetWidth(netWidth),
+    const std::vector<TensorInfo>& yoloTensors, const uint32_t& outputSize) : m_NetWidth(netWidth),
     m_NetHeight(netHeight), m_NumClasses(numClasses), m_NewCoords(newCoords), m_YoloTensors(yoloTensors),
     m_OutputSize(outputSize)
 {
@@ -210,7 +210,7 @@ YoloLayer::enqueue(const nvinfer1::PluginTensorDesc* inputDesc, const nvinfer1::
   void* scores = outputs[1];
   void* classes = outputs[2];
 
-  uint64_t lastInputSize = 0;
+  uint32_t lastInputSize = 0;
 
   uint yoloTensorsSize = m_YoloTensors.size();
   for (uint i = 0; i < yoloTensorsSize; ++i) {
@@ -234,7 +234,7 @@ YoloLayer::enqueue(const nvinfer1::PluginTensorDesc* inputDesc, const nvinfer1::
       CUDA_CHECK(cudaMemcpyAsync(v_mask, mask.data(), sizeof(int) * mask.size(), cudaMemcpyHostToDevice, stream));
     }
 
-    const uint64_t inputSize = (numBBoxes * (4 + 1 + m_NumClasses)) * gridSizeY * gridSizeX;
+    const uint32_t inputSize = (numBBoxes * (4 + 1 + m_NumClasses)) * gridSizeY * gridSizeX;
 
     if (mask.size() > 0) {
       if (m_NewCoords) {
